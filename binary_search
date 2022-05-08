@@ -1,0 +1,25 @@
+def get_array_from_user():
+    n = int(input("No. of elements: "))
+    array = []
+    for i in range(n):
+        array.append(int(input("Element:")))
+    return array
+
+def binary_search(array, x):
+    start = 0
+    end = len(array) - 1
+    while start <= end:
+        mid = (start + end) // 2
+        if x > array[mid]:
+            start = mid + 1
+            
+        elif x < array[mid]:
+            end = mid - 1
+            
+        else:
+            return mid
+    return -1
+
+array = get_array_from_user()
+index = binary_search(array, 8)
+print(index)
