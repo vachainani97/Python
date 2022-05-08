@@ -1,0 +1,23 @@
+def bubble_sort(unsorted):
+
+    for i in range(0, len(unsorted)-1):
+        flag = False
+        # print(i, end="-")
+        for j in range(0, len(unsorted)-1-i):
+            # print(j)
+            if unsorted[j] > unsorted[j+1]:
+                m = unsorted[j]
+                unsorted[j] = unsorted[j+1]
+                unsorted[j+1] = m
+                flag = True
+        # print(unsorted, flag)        
+        if flag == False:
+            break 
+    
+    return unsorted
+
+def main():
+    unsorted = [7,3,12,2,8,5,1,19]
+    print(bubble_sort(unsorted))
+
+main()
