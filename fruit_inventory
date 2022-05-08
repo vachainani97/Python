@@ -1,0 +1,40 @@
+def fruit_inv():
+    inv = {}
+    while True:
+        print("1. Add item \n2. Remove item \n3. Check stock \n4. Exit")
+        n = int(input("insert option no.: "))
+        if n < 1 or n > 4:
+            print("Please insert a valid option no!")
+
+        elif n == 1:
+            item = input("Insert item to be added: ")
+            item_no = int(input(f"How many {item}s to be added?"))
+            if item in inv:
+                inv[item] += item_no
+            else:
+                inv[item] = item_no
+
+        elif n == 2:
+            item = input("Insert item to be removed: ")
+            item_no = int(input(f"How many {item}s to be removed?"))
+            if item_no > inv[item]:
+                print(f"can't remove greater no. of {item}s")
+            else:
+                if item in inv:
+                    inv[item] -= item_no
+                else:
+                    print("Item does not exist!")
+
+        elif n == 3:
+            item = input("Insert item: ")
+            if item in inv:
+                print(inv[item])
+            else:
+                print("Item does not exist!")
+                
+        elif n == 4:
+            break
+    
+        print(inv)
+
+fruit_inv()
