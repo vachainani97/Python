@@ -1,0 +1,237 @@
+class Stack:
+    def __init__(self):
+        self.array = []
+    
+    def push(self, element):
+        self.array.append(element)
+    
+    def pop(self):
+        return self.array.pop()
+    
+    def is_empty(self):
+        if len(self.array) == 0:
+            return True
+        return False
+
+
+class Node:
+    def __init__(self, data, next):
+        self.data = data
+        self.next = next
+
+    def __eq__(self, other):
+        if self.data == other.data:
+            return True
+        else:
+            return False
+
+
+class LinkedList:
+    def __init__(self, start):
+        self.start = start
+    
+    def is_empty(self):
+        return self.start is None
+    
+    def prepend(self, data):
+        new = Node(data, self.start)
+        self.start = new        
+
+    def append(self, data):
+        if self.is_empty():
+            self.start = Node(data, None)
+            return
+        temp = self.start
+        while temp.next is not None:
+            temp = temp.next
+        new = Node(data, None)
+        temp.next = new
+
+    def extend(self, l2):
+        t1 = self.start
+        if t1 is not None:
+            while t1.next is not None:
+                t1 = t1.next
+        t2 = l2.start
+        while t2 is not None:
+            new = Node(t2.data, None)
+            t2 = t2.next
+            if t1 is not None:
+                t1.next = new
+                t1 = t1.next
+            else:
+                self.start = new
+                t1 = new
+
+    def pop(self):
+        if self.start is None:
+            raise IndexError("pop from empty list")
+        if self.start.next is None:
+            x = self.start.data
+            self.start = None
+            return x
+        temp = self.start
+        while temp.next.next is not None:
+            temp = temp.next
+        x = temp.next.data
+        temp.next = None
+        return x
+
+    def prepop(self):
+        if self.start is None:
+            raise IndexError("pop from empty list")
+        x = self.start.data
+        self.start = self.start.next
+        return x
+    
+    def __str__(self):
+        if self.start is None:
+            return "[]"
+        temp = self.start
+        string = "["
+        while temp.next is not None:
+            string += f"{temp.data}, "
+            temp = temp.next
+        string += f"{temp.data}]"
+        return string
+
+    def __getitem__(self, index):
+        if self.start is None:
+            return "List is empty"
+        temp = self.start
+        for i in range(index):
+            temp = temp.next
+            if temp == None:
+                raise IndexError("list index out of range")
+        return temp.data
+
+    def __setitem__(self, index, item):
+        if self.start is None:
+            raise IndexError("list index out of range")
+        temp = self.start
+        for i in range(index):
+            temp = temp.next
+            if temp == None:
+                raise IndexError("list index out of range")
+        temp.data = item
+            
+    def insert(self, index, data):
+        if index == 0:
+            self.prepend(data)
+            return
+        if self.start is None:
+            self.start = Node(data, None)
+            return
+        temp = self.start
+        for i in range(index-1):
+            temp = temp.next
+            if temp == None:
+                raise IndexError("list index out of range")
+        new = Node(data, temp.next)
+        temp.next = new
+
+    def remove(self, index):
+        if self.start is None:
+            raise IndexError("can't remove from empty list")
+        if index == 0:
+            self.prepop()
+            return
+        temp = self.start
+        for i in range(index-1):
+            temp = temp.next
+            if temp == None:
+                raise IndexError("list index out of range")
+        temp.next = temp.next.next
+
+    def reverse(self):
+        prev = None
+        curr = self.start
+        fol = self.start.next
+        while fol is not None:
+            curr.next = prev
+            prev = curr
+            curr = fol
+            fol = fol.next
+        curr.next = prev
+        self.start = curr
+
+    def get_mid(self):
+        temp = self.start
+        temp2 = self.start
+        while temp2 is not None and temp2.next is not None:
+            temp2 = temp2.next.next
+            if temp2 is not None:
+                temp = temp.next
+        return temp.data
+
+    def palindrome_check(self):
+        if self.start is None or self.start.next is None:
+            return "P A L I N D R O M E"
+        fast = self.start
+        slow = self.start
+        stack = Stack()
+        while fast is not None and fast.next is not None:
+            fast = fast.next.next
+            stack.push(slow.data)
+            if fast is not None:
+                slow = slow.next
+        print(slow.data)
+        print(slow.next.data)            
+        slow = slow.next
+        while slow is not None:
+            if stack.is_empty():
+                return "Not a palindrome"
+            top = stack.pop()
+            print(f"pop:{top}")
+            # print(f"s:{slow.data}, s.n:{slow.next.data}")
+            if top != slow.data:
+                return "Not a palindrome"
+            slow = slow.next
+        if stack.is_empty():
+            return "P A L I N D R O M E"
+        else:
+            return "Not a palindrome"
+
+                
+
+def main():
+    # node = Node(1, None)
+    # node.next = Node(2, None)
+    # node.next.next = Node(3, None)
+    # ln0 = LinkedList(node)
+    # print(ln0)
+    ln = LinkedList(None)
+    ln.append(1)
+    ln.append(2)
+    ln.append(3)
+    ln.append(3)
+    ln.append(2)
+    ln.append(1)
+    print(f"ln: {ln}")
+    l2 = LinkedList(None)
+    l2.append(1)
+    l2.append(9)
+    l2.append(5)
+    print(f"l2: {l2}")
+    ln.extend(l2)
+    print(f"ln after ext.: {ln}")
+    print(f"l2 after ext.: {l2}")
+    # print(ln.pop())
+    # print(ln)
+    # ln.prepend(17)
+    # print(ln)
+    # print(ln.prepop())
+    # print(ln)
+    # ln[7] = 9
+    # print(ln)
+    # ln.insert(6, 9)
+    # print(f"ln after inserting: {ln}")
+    # ln.remove(0)
+    # print(f"ln after removing: {ln}")
+    # ln.reverse()
+    # print(f"ln after reverse: {ln}")
+    # print(f"mid term: {ln.get_mid()}")
+    # print(ln.palindrome_check())
+
+
+main()
