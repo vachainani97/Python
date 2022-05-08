@@ -1,0 +1,131 @@
+class Matrix:
+    def __init__(self):
+        self.matrix = []
+        self.num_rows = 0
+        self.num_cols = 0
+    
+    def __add__(self, other):
+        if self.get_num_rows() != other.get_num_rows() or self.get_num_cols() != other.get_num_cols():
+            return None
+        sum = []
+        for i in range(self.get_num_rows()):
+            row = []
+            for j in range(self.get_num_cols()):
+                row.append(self.get_element(i, j) + other.get_element(i, j))
+            sum.append(row)
+        
+        sum_matrix = Matrix()
+        sum_matrix.matrix = sum
+        sum_matrix.num_rows = self.get_num_rows()
+        sum_matrix.num_cols = self.get_num_cols()
+        return sum_matrix
+    
+    def __str__(self):
+        string = ""
+        for i in range(self.num_rows):
+            for j in range(self.num_cols):
+                string += f"{self.matrix[i][j]}\t"
+            string += "\n"
+        return string
+
+    def get_from_user(self):
+        self.num_rows = int(input("No. of rows: "))
+        self.num_cols = int(input("No. of cols: "))
+        self.matrix = []
+        for i in range(self.num_rows):
+            row = []
+            for j in range(self.num_cols):
+                row.append(int(input("insert element: ")))
+            self.matrix.append(row)
+
+    def get_num_rows(self):
+        return self.num_rows
+
+    def get_num_cols(self):
+        return self.num_cols
+
+    def get_element(self, x, y):
+        return self.matrix[x][y]
+    
+    def add(self, other):
+        if self.get_num_rows() != other.get_num_rows() or self.get_num_cols() != other.get_num_cols():
+            return None
+        for i in range(self.num_rows):
+            for j in range(self.num_cols):
+                self.matrix[i][j] += other.get_element(i,j) 
+
+    def sub(self, other):
+        if self.get_num_rows() != other.get_num_rows() or self.get_num_cols() != other.get_num_cols():
+            return None
+        for i in range(self.num_rows):
+            for j in range(self.num_cols):
+                self.matrix[i][j] -= other.get_element(i,j) 
+    
+    def transpose(self):
+        transpose = []
+        for i in range(len(self.matrix[0])):
+            column = []
+            for j in range(len(self.matrix)):
+                column.append(self.matrix[j][i])
+            transpose.append(column)
+        self.matrix = transpose
+        x = self.num_rows
+        self.num_rows = self.num_cols
+        self.num_cols = x
+
+
+
+                                
+    def print(self):
+        for i in range(self.num_rows):
+            for j in range(self.num_cols):
+                print(self.matrix[i][j], end="\t")
+            print()
+        
+
+
+m1 = Matrix()
+
+m1.get_from_user()
+# print(m1.get_num_rows())
+# print(m1.get_num_cols())
+# print(m1.get_element(0,0))
+
+# m2 = Matrix()
+# m2.get_from_user()
+
+# print("before adding")
+# print("m1")
+# m1.print()
+# print("m2")
+# m2.print()
+
+# m1.add(m2)
+
+# print("after adding")
+# print("m1")
+# m1.print()
+# print("m2")
+# m2.print()
+print("before transpose")
+print(m1)
+print(m1.get_num_rows(), m1.get_num_cols())
+
+m1.transpose()
+
+print("after transpose")
+print(m1)
+print(m1.get_num_rows(), m1.get_num_cols())
+
+m1.transpose()
+
+print("after 2nd transpose")
+print(m1)
+print(m1.get_num_rows(), m1.get_num_cols())
+
+# =======
+
+m2 = Matrix()
+m2.get_from_user()
+
+print(m1 + m2) # m1.__add__(m2)
